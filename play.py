@@ -13,8 +13,7 @@ def play(screen, clock):
     background = background.convert()
     background.fill(BACKGROUND_COLOUR)
 
-    board = Board((0, 0))
-    selected_coords = None
+    BoardInput = Board((0, 0)).get_BoardInput()
     while True:
         clock.tick(60)
         
@@ -23,22 +22,15 @@ def play(screen, clock):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    board.set_is_dragging(True)
-                    selected_coords = board.get_mouse_square()
-                    board.set_selected_piece_coords(selected_coords)
+                    BoardInput.click_down()
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
-                    board.set_is_dragging(False)
-                    new_selected_coords = board.get_mouse_square()
-                    if new_selected_coords == None:
-                        continue
-                    if new_selected_coords != selected_coords:
-                        board.move(selected_coords, new_selected_coords)
-                        board.set_selected_piece_coords(None)
+                    BoardInput.click_up()
+                    
 
 
                     
         
-        board.draw(background)
+        BoardInput.draw(background)
         screen.blit(background, (0, 0))
         pygame.display.flip()
